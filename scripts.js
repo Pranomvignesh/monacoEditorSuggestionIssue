@@ -24,7 +24,20 @@ require(["vs/editor/editor.main"], function(){
     const editorOptions = {
         language : 'javascript'
     }
+    const compilerOptions = {
+        noImplicitUseStrict : true
+    }
     const jsModel = monaco.editor.createModel(jsString,"javascript");
     const jsContainer = monaco.editor.create(editorDiv, editorOptions);
     jsContainer.setModel(jsModel);
+
+    /**
+     * This code snippet is written based on
+     * https://github.com/Microsoft/monaco-editor/issues/989#issuecomment-411027528
+     */
+    const jsOptions = monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
+    for(let option in compilerOptions){
+        jsOptions[option] = compilerOptions[option];
+    }
+    monaco.languages.typescript.javascriptDefaults.setCompilerOptions(jsOptions);
 })
